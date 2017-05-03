@@ -78,36 +78,15 @@ public class PayTM extends CordovaPlugin {
         PaytmOrder order = new PaytmOrder(paramMap);
         PaytmMerchant merchant = new PaytmMerchant(this.PAYTM_GENERATE_URL, this.PAYTM_VALIDATE_URL);
 
-        this.paytm_service.initialize(order, merchant, null);
+        this.paytm_service.initialize(order, null);
         this.paytm_service.startPaymentTransaction(cordova.getActivity(), false, false, new PaytmPaymentTransactionCallback()
         {
 
             @Override
-            public void onTransactionSuccess(Bundle inResponse) {
+            public void onTransactionResponse(Bundle inResponse) {
                 Log.i("Error", "onTransactionSuccess :" + inResponse);
-                callbackContext.sucess(inResponses);
+                callbackContext.success(inResponses.toString());
             }
-
-            @Override
-            public void onTransactionFailure(String inErrorMessage,Bundle inResponse)
-            {
-                Log.i("Error","onTransactionFailure :"+inErrorMessage);
-                JSONObject error = new JSONObject();
-                error.put("errormsg", inErrorMessage);
-                error.put("responsemsg", inResponse);
-                callbackContext.error(error);
-            }
-
-
-            @Override
-            public void clientAuthenticationFailed(String inErrorMessage)
-            {
-                Log.i("Error","clientAuthenticationFailed :"+inErrorMessage);
-                JSONObject error = new JSONObject();
-                error.put("errormsg", inErrorMessage);
-                callbackContext.error(error);
-            }
-
 
             @Override
             public void networkNotAvailable() {
@@ -118,14 +97,10 @@ public class PayTM extends CordovaPlugin {
             }
 
             @Override
-            public void onErrorLoadingWebPage(int arg0, String arg1, String arg2) {
-                Log.i("Error","onErrorLoadingWebPage arg0  :"+arg0);
-                Log.i("Error","onErrorLoadingWebPage arg1  :"+arg1);
-                Log.i("Error","onErrorLoadingWebPage arg2  :"+arg2);
+            public void clientAuthenticationFailed(String inErrorMessage) {
+                Log.i("Error","clientAuthenticationFailed :"+inErrorMessage);
                 JSONObject error = new JSONObject();
-                error.put("errormsg1", arg0);
-                error.put("errormsg2", arg1);
-                error.put("errormsg3", arg2);
+                error.put("errormsg", inErrorMessage);
                 callbackContext.error(error);
             }
 
@@ -136,6 +111,36 @@ public class PayTM extends CordovaPlugin {
                 error.put("errormsg", arg0);
                 callbackContext.error(error);
             }
+
+            @Override
+            public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
+                Log.i("Error","onErrorLoadingWebPage arg0  :"+iniErrorCode);
+                Log.i("Error","onErrorLoadingWebPage arg1  :"+inErrorMessage);
+                Log.i("Error","onErrorLoadingWebPage arg2  :"+inFailingUrl);
+                JSONObject error = new JSONObject();
+                error.put("errorcode", iniErrorCode);
+                error.put("errormsg", inErrorMessage);
+                error.put("errorurl", inFailingUrl);
+                callbackContext.error(error);
+            }
+
+			@Override
+			public void onBackPressedCancelTransaction() {
+				Log.i("Error","user cancellation :");
+                JSONObject error = new JSONObject();
+                error.put("errormsg", "Transaction cancelled on back button pressed ");
+                callbackContext.error(error);
+			}
+
+            @Override
+            public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
+                Log.i("Error","onTransactionFailure :"+inErrorMessage);
+                JSONObject error = new JSONObject();
+                error.put("errormsg", inErrorMessage);
+                error.put("responsemsg", inResponse.toString());
+                callbackContext.error(error);
+            }      
+            
         });
     }
 }
