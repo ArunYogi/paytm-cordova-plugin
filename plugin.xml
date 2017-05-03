@@ -27,11 +27,13 @@
   <preference name="WEBSITE" />
 
   <engines>
-    <engine name="cordova" version=">=3.0.0"/>
+    <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
+ <asset src="www/paytm.js" target="js/paytm.js"/>
+
   <js-module src="www/paytm.js" name="paytm">
-    <clobbers target="window.plugins.paytm" />
+    <clobbers target="paytm" />
   </js-module>
 
   <!-- ios -->

@@ -85,15 +85,17 @@ public class PayTM extends CordovaPlugin {
             @Override
             public void onTransactionSuccess(Bundle inResponse) {
                 Log.i("Error", "onTransactionSuccess :" + inResponse);
-//                onTransactionSuccess :Bundle[{GATEWAYNAME=WALLET, PAYMENTMODE=PPI, TXNDATE=2015-02-19 17:01:42.0, STATUS=TXN_SUCCESS, MID=sumjkE62398232705701, CURRENCY=INR, ORDERID=5384643, TXNID=70013, IS_CHECKSUM_VALID=N, TXNAMOUNT=100.00, BANKTXNID=CC9795B5013489B9, BANKNAME=, RESPMSG=Txn Successful., RESPCODE=01, CHECKSUMHASH=8liiSa0uQ0S1lCALiQA3FsyQx6xMey9m8VrF+WZu1tTxG+72c3bU1UYZZg+j/UMS5w9F8iHXq051G4/XtVe4L7FSTk5PGnQpp4r6+QkuyWM=}]
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 0));
+                callbackContext.sucess(inResponses);
             }
 
             @Override
             public void onTransactionFailure(String inErrorMessage,Bundle inResponse)
             {
                 Log.i("Error","onTransactionFailure :"+inErrorMessage);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, 0));
+                JSONObject error = new JSONObject();
+                error.put("errormsg", inErrorMessage);
+                error.put("responsemsg", inResponse);
+                callbackContext.error(error);
             }
 
 
@@ -101,31 +103,38 @@ public class PayTM extends CordovaPlugin {
             public void clientAuthenticationFailed(String inErrorMessage)
             {
                 Log.i("Error","clientAuthenticationFailed :"+inErrorMessage);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, 0));
+                JSONObject error = new JSONObject();
+                error.put("errormsg", inErrorMessage);
+                callbackContext.error(error);
             }
 
 
             @Override
             public void networkNotAvailable() {
-                // TODO Auto-generated method stub
                 Log.i("Error","networkNotAvailable");
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, 0));
+                JSONObject error = new JSONObject();
+                error.put("errormsg", "networkNotAvailable");
+                callbackContext.error(error);
             }
 
             @Override
             public void onErrorLoadingWebPage(int arg0, String arg1, String arg2) {
-                // TODO Auto-generated method stub
                 Log.i("Error","onErrorLoadingWebPage arg0  :"+arg0);
                 Log.i("Error","onErrorLoadingWebPage arg1  :"+arg1);
                 Log.i("Error","onErrorLoadingWebPage arg2  :"+arg2);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, 0));
+                JSONObject error = new JSONObject();
+                error.put("errormsg1", arg0);
+                error.put("errormsg2", arg1);
+                error.put("errormsg3", arg2);
+                callbackContext.error(error);
             }
 
             @Override
             public void someUIErrorOccurred(String arg0) {
-                // TODO Auto-generated method stub
                 Log.i("Error","someUIErrorOccurred :"+arg0);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, 0));
+                JSONObject error = new JSONObject();
+                error.put("errormsg", arg0);
+                callbackContext.error(error);
             }
         });
     }
