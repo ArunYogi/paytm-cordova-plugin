@@ -85,7 +85,7 @@ public class PayTM extends CordovaPlugin {
             @Override
             public void onTransactionResponse(Bundle inResponse) {
                 Log.i("Error", "onTransactionSuccess :" + inResponse);
-                callbackContext.success(inResponses.toString());
+                callbackContext.success(inResponse.toString());
             }
 
             @Override
