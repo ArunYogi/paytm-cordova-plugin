@@ -40,7 +40,7 @@ public class PayTM extends CordovaPlugin {
             throws JSONException {
         if (action.equals("startPayment")) {
             //orderid, cust_id, email, phone, txn_amt
-            startPayment(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), args.getString(5), args.getString(6), callbackContext);
+            startPayment(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), args.getString(5), args.getString(6), args.getString(7), callbackContext);
             return true;
         }
         return false;
@@ -52,6 +52,7 @@ public class PayTM extends CordovaPlugin {
                               final String phone,
                               final String txn_amt,
                               final String checksumhash,
+                              final String callbackurl,
                               final String environment,
                               final CallbackContext callbackContext){
 
@@ -71,6 +72,7 @@ public class PayTM extends CordovaPlugin {
         paramMap.put("TXN_AMOUNT", txn_amt);
         paramMap.put("EMAIL", email);
         paramMap.put("MOBILE_NO", phone);
+        paramMap.put("CALLBACK_URL", callbackurl);
         paramMap.put("CHECKSUMHASH", checksumhash);
         paramMap.put("THEME", "merchant");
 

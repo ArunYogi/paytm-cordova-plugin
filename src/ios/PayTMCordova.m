@@ -32,7 +32,8 @@
     NSString *phone = [command.arguments objectAtIndex:3];
     NSString *amount = [command.arguments objectAtIndex:4];
     NSString *checksumhash = [command.arguments objectAtIndex:5];
-    NSString *environment = [command.arguments objectAtIndex:6];
+    NSString *callbackurl = [command.arguments objectAtIndex:6];
+    NSString *environment = [command.arguments objectAtIndex:7];
     
     NSBundle* mainBundle;
     mainBundle = [NSBundle mainBundle];
@@ -56,6 +57,7 @@
     orderDict[@"CHECKSUMHASH"] = checksumhash;
     orderDict[@"EMAIL"] = email;
     orderDict[@"MOBILE_NO"] = phone;
+    orderDict[@"CALLBACK_URL"]= callbackurl;
     orderDict[@"THEME"] = @"merchant";
     
     PGOrder *order = [PGOrder orderWithParams:orderDict];
