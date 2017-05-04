@@ -32,11 +32,11 @@
     NSString *phone = [command.arguments objectAtIndex:3];
     NSString *amount = [command.arguments objectAtIndex:4];
     NSString *checksumhash = [command.arguments objectAtIndex:5];
+    NSString *environment = [command.arguments objectAtIndex:6];
     
     NSBundle* mainBundle;
     mainBundle = [NSBundle mainBundle];
     
-    NSString* paytm_env = [mainBundle objectForInfoDictionaryKey:@"PayTMEnvironment"];
     NSString* paytm_merchant_id = [mainBundle objectForInfoDictionaryKey:@"PayTMMerchantID"];
     NSString* paytm_ind_type_id = [mainBundle objectForInfoDictionaryKey:@"PayTMIndustryTypeID"];
     NSString* paytm_website = [mainBundle objectForInfoDictionaryKey:@"PayTMWebsite"];
@@ -62,13 +62,13 @@
     
     //Choose the PG server. In your production build dont call selectServerDialog. Just create a instance of the
     //PGTransactionViewController and set the serverType to eServerTypeProduction
-         PGTransactionViewController *txnController = [[PGTransactionViewController alloc] initTransactionForOrder:order];
-         switch paytm_env {
+        PGTransactionViewController *txnController = [[PGTransactionViewController alloc] initTransactionForOrder:order];
+        switch environment {
             case "production", "PRODUCTION":
                 txnController.serverType = eServerTypeProduction;
             default:
                 txnController.serverType = eServerTypeStaging;
-         }
+        }
         txnController.merchant = mc;
         txnController.delegate = self;
         txnController.loggingEnabled = YES;

@@ -20,8 +20,6 @@
 
   <issue>https://github.com/ArunYogi/paytm-cordova-plugin/issues</issue>
 
-  <preference name="GENERATE_URL" />
-  <preference name="VERIFY_URL" />
   <preference name="MERCHANT_ID" />
   <preference name="INDUSTRY_TYPE_ID" />
   <preference name="WEBSITE" />
@@ -44,9 +42,6 @@
         <param name="ios-package" value="PayTMCordova"/>
         <plugin name="PayTMCordova" value="PayTMCordova"/>
       </feature>
-    </config-file>
-    <config-file target="*-Info.plist" parent="PayTMEnvironment">
-        <string>$ENVIRONMENT</string>
     </config-file>
     <config-file target="*-Info.plist" parent="PayTMMerchantID">
         <string>$MERCHANT_ID</string>
@@ -81,7 +76,6 @@
 
     <source-file src="src/android/res/values/paytmcordova.xml" target-dir="res/values" />
     <config-file target="res/values/paytmcordova.xml" parent="/*">
-        <string name="paytm_env">$ENVIRONMENT</string>
         <string name="paytm_merchant_id">$MERCHANT_ID</string>
         <string name="paytm_industry_type_id">$INDUSTRY_TYPE_ID</string>
         <string name="paytm_website">$WEBSITE</string>

@@ -26,7 +26,6 @@ public class PayTM extends CordovaPlugin {
     private String PAYTM_MERCHANT_ID;
     private String PAYTM_INDUSTRY_TYPE_ID;
     private String PAYTM_WEBSITE;
-    private String ENVIRONMENT;
 
     protected void pluginInitialize() {
         int appResId = cordova.getActivity().getResources().getIdentifier("paytm_merchant_id", "string", cordova.getActivity().getPackageName());
@@ -35,15 +34,13 @@ public class PayTM extends CordovaPlugin {
         PAYTM_INDUSTRY_TYPE_ID = cordova.getActivity().getString(appResId);
         appResId = cordova.getActivity().getResources().getIdentifier("paytm_website", "string", cordova.getActivity().getPackageName());
         PAYTM_WEBSITE = cordova.getActivity().getString(appResId);
-        appResId = cordova.getActivity().getResources().getIdentifier("paytm_env", "string", cordova.getActivity().getPackageName());
-        ENVIRONMENT = cordova.getActivity().getString(appResId);
     }
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext)
             throws JSONException {
         if (action.equals("startPayment")) {
             //orderid, cust_id, email, phone, txn_amt
-            startPayment(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), args.getString(5), callbackContext);
+            startPayment(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), args.getString(5), args.getString(6), callbackContext);
             return true;
         }
         return false;
@@ -55,12 +52,13 @@ public class PayTM extends CordovaPlugin {
                               final String phone,
                               final String txn_amt,
                               final String checksumhash,
+                              final String environment,
                               final CallbackContext callbackContext){
 
-        if ("production".equalsIgnoreCase(ENVIRONMENT)) {
-            paytm_service = PaytmPGService.getProductionService();
+        if ("production".equalsIgnoreCase(environment)) {
+            this.paytm_service = PaytmPGService.getProductionService();
         } else {
-            paytm_service = PaytmPGService.getStagingService();
+            this.paytm_service = PaytmPGService.getStagingService();
         }
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("REQUEST_TYPE", "DEFAULT");
@@ -92,7 +90,11 @@ public class PayTM extends CordovaPlugin {
             public void networkNotAvailable() {
                 Log.i("Error","networkNotAvailable");
                 JSONObject error = new JSONObject();
-                error.put("errormsg", "networkNotAvailable");
+                try {
+                    error.put("errormsg", "networkNotAvailable");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 callbackContext.error(error);
             }
 
@@ -100,7 +102,11 @@ public class PayTM extends CordovaPlugin {
             public void clientAuthenticationFailed(String inErrorMessage) {
                 Log.i("Error","clientAuthenticationFailed :"+inErrorMessage);
                 JSONObject error = new JSONObject();
-                error.put("errormsg", inErrorMessage);
+                try {
+                    error.put("errormsg", inErrorMessage);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 callbackContext.error(error);
             }
 
@@ -108,7 +114,11 @@ public class PayTM extends CordovaPlugin {
             public void someUIErrorOccurred(String arg0) {
                 Log.i("Error","someUIErrorOccurred :"+arg0);
                 JSONObject error = new JSONObject();
-                error.put("errormsg", arg0);
+                try {
+                    error.put("errormsg", arg0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 callbackContext.error(error);
             }
 
@@ -118,9 +128,13 @@ public class PayTM extends CordovaPlugin {
                 Log.i("Error","onErrorLoadingWebPage arg1  :"+inErrorMessage);
                 Log.i("Error","onErrorLoadingWebPage arg2  :"+inFailingUrl);
                 JSONObject error = new JSONObject();
-                error.put("errorcode", iniErrorCode);
-                error.put("errormsg", inErrorMessage);
-                error.put("errorurl", inFailingUrl);
+                try {
+                    error.put("errorcode", iniErrorCode);
+                    error.put("errormsg", inErrorMessage);
+                    error.put("errorurl", inFailingUrl);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 callbackContext.error(error);
             }
 
@@ -128,7 +142,11 @@ public class PayTM extends CordovaPlugin {
 			public void onBackPressedCancelTransaction() {
 				Log.i("Error","user cancellation :");
                 JSONObject error = new JSONObject();
-                error.put("errormsg", "Transaction cancelled on back button pressed ");
+                try {
+                    error.put("errormsg", "Transaction cancelled on back button pressed ");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 callbackContext.error(error);
 			}
 
@@ -136,8 +154,12 @@ public class PayTM extends CordovaPlugin {
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
                 Log.i("Error","onTransactionFailure :"+inErrorMessage);
                 JSONObject error = new JSONObject();
-                error.put("errormsg", inErrorMessage);
-                error.put("responsemsg", inResponse.toString());
+                try {
+                    error.put("errormsg", inErrorMessage);
+                    error.put("responsemsg", inResponse.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 callbackContext.error(error);
             }      
             
