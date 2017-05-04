@@ -23,32 +23,27 @@ import com.paytm.pgsdk.*;
 public class PayTM extends CordovaPlugin {
 
     private PaytmPGService paytm_service;
-
-    private String PAYTM_GENERATE_URL;
-    private String PAYTM_VALIDATE_URL;
-
     private String PAYTM_MERCHANT_ID;
     private String PAYTM_INDUSTRY_TYPE_ID;
     private String PAYTM_WEBSITE;
+    private String ENVIRONMENT;
 
     protected void pluginInitialize() {
-        int appResId = cordova.getActivity().getResources().getIdentifier("paytm_gen_url", "string", cordova.getActivity().getPackageName());
-        PAYTM_GENERATE_URL = cordova.getActivity().getString(appResId);
-        appResId = cordova.getActivity().getResources().getIdentifier("paytm_chk_url", "string", cordova.getActivity().getPackageName());
-        PAYTM_VALIDATE_URL = cordova.getActivity().getString(appResId);
-        appResId = cordova.getActivity().getResources().getIdentifier("paytm_merchant_id", "string", cordova.getActivity().getPackageName());
+        int appResId = cordova.getActivity().getResources().getIdentifier("paytm_merchant_id", "string", cordova.getActivity().getPackageName());
         PAYTM_MERCHANT_ID = cordova.getActivity().getString(appResId);
         appResId = cordova.getActivity().getResources().getIdentifier("paytm_industry_type_id", "string", cordova.getActivity().getPackageName());
         PAYTM_INDUSTRY_TYPE_ID = cordova.getActivity().getString(appResId);
         appResId = cordova.getActivity().getResources().getIdentifier("paytm_website", "string", cordova.getActivity().getPackageName());
         PAYTM_WEBSITE = cordova.getActivity().getString(appResId);
+        appResId = cordova.getActivity().getResources().getIdentifier("paytm_env", "string", cordova.getActivity().getPackageName());
+        ENVIRONMENT = cordova.getActivity().getString(appResId);
     }
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext)
             throws JSONException {
         if (action.equals("startPayment")) {
             //orderid, cust_id, email, phone, txn_amt
-            startPayment(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), callbackContext);
+            startPayment(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4), args.getString(5), callbackContext);
             return true;
         }
         return false;
@@ -59,9 +54,14 @@ public class PayTM extends CordovaPlugin {
                               final String email,
                               final String phone,
                               final String txn_amt,
+                              final String checksumhash,
                               final CallbackContext callbackContext){
 
-        paytm_service = PaytmPGService.getStagingService();
+        if ("production".equalsIgnoreCase(ENVIRONMENT)) {
+            paytm_service = PaytmPGService.getProductionService();
+        } else {
+            paytm_service = PaytmPGService.getStagingService();
+        }
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("REQUEST_TYPE", "DEFAULT");
         paramMap.put("ORDER_ID", order_id);
@@ -73,10 +73,10 @@ public class PayTM extends CordovaPlugin {
         paramMap.put("TXN_AMOUNT", txn_amt);
         paramMap.put("EMAIL", email);
         paramMap.put("MOBILE_NO", phone);
+        paramMap.put("CHECKSUMHASH", checksumhash);
         paramMap.put("THEME", "merchant");
 
         PaytmOrder order = new PaytmOrder(paramMap);
-        PaytmMerchant merchant = new PaytmMerchant(this.PAYTM_GENERATE_URL, this.PAYTM_VALIDATE_URL);
 
         this.paytm_service.initialize(order, null);
         this.paytm_service.startPaymentTransaction(cordova.getActivity(), false, false, new PaytmPaymentTransactionCallback()

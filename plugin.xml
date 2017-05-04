@@ -45,11 +45,8 @@
         <plugin name="PayTMCordova" value="PayTMCordova"/>
       </feature>
     </config-file>
-    <config-file target="*-Info.plist" parent="PayTMGenerateChecksumURL">
-        <string>$GENERATE_URL</string>
-    </config-file>
-    <config-file target="*-Info.plist" parent="PayTMVerifyChecksumURL">
-        <string>$VERIFY_URL</string>
+    <config-file target="*-Info.plist" parent="PayTMEnvironment">
+        <string>$ENVIRONMENT</string>
     </config-file>
     <config-file target="*-Info.plist" parent="PayTMMerchantID">
         <string>$MERCHANT_ID</string>
@@ -84,8 +81,7 @@
 
     <source-file src="src/android/res/values/paytmcordova.xml" target-dir="res/values" />
     <config-file target="res/values/paytmcordova.xml" parent="/*">
-        <string name="paytm_gen_url">$GENERATE_URL</string>
-        <string name="paytm_chk_url">$VERIFY_URL</string>
+        <string name="paytm_env">$ENVIRONMENT</string>
         <string name="paytm_merchant_id">$MERCHANT_ID</string>
         <string name="paytm_industry_type_id">$INDUSTRY_TYPE_ID</string>
         <string name="paytm_website">$WEBSITE</string>
