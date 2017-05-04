@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.paytm.pgsdk.*;
 
@@ -39,12 +40,12 @@ public class PayTM extends CordovaPlugin {
 
     public static Object wrap(Object o) {
         if (o == null) {
-            return NULL;
+            return JSONObject.NULL;
         }
         if (o instanceof JSONArray || o instanceof JSONObject) {
             return o;
         }
-        if (o.equals(NULL)) {
+        if (o.equals(JSONObject.NULL)) {
             return o;
         }
         try {
@@ -128,7 +129,7 @@ public class PayTM extends CordovaPlugin {
                 Set<String> keys = inResponse.keySet();
                 for (String key : keys) {
                     try {
-                        json.put(key, wrap(bundle.get(key)));
+                        json.put(key, wrap(inResponse.get(key)));
                     } catch(JSONException e) {
                         //Handle exception here
                     }
