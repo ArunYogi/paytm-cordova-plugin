@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,44 @@ public class PayTM extends CordovaPlugin {
         PAYTM_INDUSTRY_TYPE_ID = cordova.getActivity().getString(appResId);
         appResId = cordova.getActivity().getResources().getIdentifier("paytm_website", "string", cordova.getActivity().getPackageName());
         PAYTM_WEBSITE = cordova.getActivity().getString(appResId);
+    }
+
+    public static Object wrap(Object o) {
+        if (o == null) {
+            return NULL;
+        }
+        if (o instanceof JSONArray || o instanceof JSONObject) {
+            return o;
+        }
+        if (o.equals(NULL)) {
+            return o;
+        }
+        try {
+            if (o instanceof Collection) {
+                return new JSONArray((Collection) o);
+            } else if (o.getClass().isArray()) {
+                return new JSONArray(o);
+            }
+            if (o instanceof Map) {
+                return new JSONObject((Map) o);
+            }
+            if (o instanceof Boolean ||
+                o instanceof Byte ||
+                o instanceof Character ||
+                o instanceof Double ||
+                o instanceof Float ||
+                o instanceof Integer ||
+                o instanceof Long ||
+                o instanceof Short ||
+                o instanceof String) {
+                return o;
+            }
+            if (o.getClass().getPackage().getName().startsWith("java.")) {
+                return o.toString();
+            }
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext)
@@ -85,7 +124,16 @@ public class PayTM extends CordovaPlugin {
             @Override
             public void onTransactionResponse(Bundle inResponse) {
                 Log.i("Error", "onTransactionSuccess :" + inResponse);
-                callbackContext.success(inResponse.toString());
+                JSONObject json = new JSONObject();
+                Set<String> keys = inResponse.keySet();
+                for (String key : keys) {
+                    try {
+                        json.put(key, wrap(bundle.get(key)));
+                    } catch(JSONException e) {
+                        //Handle exception here
+                    }
+                }
+                callbackContext.success(json);
             }
 
             @Override

@@ -70,6 +70,7 @@
                 txnController.serverType = eServerTypeProduction;
             default:
                 txnController.serverType = eServerTypeStaging;
+                txnController.useStaging = true;
         }
         txnController.merchant = mc;
         txnController.delegate = self;
@@ -79,25 +80,25 @@
 }
 
 //Called when a transaction has completed. response dictionary will be having details about Transaction.
-- (void)didFinishedResponse:(PGTransactionViewController *)controller response:(NSDictionary *)response{
+- (void)didFinishedResponse:(PGTransactionViewController *)controller response:(NSString *)responseString {
     DEBUGLOG(@"ViewController::didFinishedResponse:response = %@", response);
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:response];
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     [txnController dismissViewControllerAnimated:YES completion:nil];
 }
 
 //Called when a transaction is Canceled by User. response dictionary will be having details about Canceled Transaction.
-- (void)didCancelTransaction:(PGTransactionViewController *)controller error:(NSError *)error response:(NSDictionary *)response{
-    DEBUGLOG(@"ViewController::didCancelTransaction error = %@ response= %@", error, response);
+- (void)didCancelTransaction:(PGTransactionViewController *)controller {
+    DEBUGLOG(@"ViewController::didCancelTransaction");
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     [txnController dismissViewControllerAnimated:YES completion:nil];
 }
 
-//Called when CHeckSum HASH Generation completes either by PG_Server Or Merchant server.
- - (void)didFinishCASTransaction:(PGTransactionViewController *)controller response:(NSDictionary *)response{
-      DEBUGLOG(@"ViewController::didFinishCASTransaction:response = %@", response);
-     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
+ - (void)errorMisssingParameter:(PGTransactionViewController *)controller  error:(NSError *) error {
+      DEBUGLOG(@"ViewController::didFinishCASTransaction:error = %@", error);
+     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:@{ @"errorcode": NILABLE([NSNumber numberWithInteger:error.code]),
+                                                                                                                @"errormsg": NILABLE(error.localizedDescription)}]];
      [self.commandDelegate sendPluginResult:result callbackId:callbackId];
      [txnController dismissViewControllerAnimated:YES completion:nil];
  }
