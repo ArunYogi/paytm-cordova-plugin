@@ -81,16 +81,22 @@
 
 //Called when a transaction has completed. response dictionary will be having details about Transaction.
 - (void)didFinishedResponse:(PGTransactionViewController *)controller response:(NSString *)responseString {
-    DEBUGLOG(@"ViewController::didFinishedResponse:response = %@", response);
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:response];
-    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    DEBUGLOG(@"ViewController::didFinishedResponse:response = %@", responseString);
+    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:[responseString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    if ([response[@"STATUS"]  isEqual: @"TXN_SUCCESS"]) {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    } else {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    }
     [txnController dismissViewControllerAnimated:YES completion:nil];
 }
 
 //Called when a transaction is Canceled by User. response dictionary will be having details about Canceled Transaction.
 - (void)didCancelTransaction:(PGTransactionViewController *)controller {
-    DEBUGLOG(@"ViewController::didCancelTransaction");
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
+    DEBUGLOG(@"ViewController::didCancelTransaction ");
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Cancelled Transaction"];
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     [txnController dismissViewControllerAnimated:YES completion:nil];
 }

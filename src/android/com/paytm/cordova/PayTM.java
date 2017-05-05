@@ -131,7 +131,7 @@ public class PayTM extends CordovaPlugin {
                     try {
                         json.put(key, wrap(inResponse.get(key)));
                     } catch(JSONException e) {
-                        //Handle exception here
+                       Log.e("Error", "Error onTransactionSuccess response parsing", e);
                     }
                 }
                 callbackContext.success(json);
@@ -142,9 +142,11 @@ public class PayTM extends CordovaPlugin {
                 Log.i("Error","networkNotAvailable");
                 JSONObject error = new JSONObject();
                 try {
-                    error.put("errormsg", "networkNotAvailable");
+                    error.put("STATUS", "TXN_FAILURE");
+                    error.put("RESPCODE", 501);
+                    error.put("RESPMSG", "Network Not Available");
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("Error", "Error networkNotAvailable json object creation", e);
                 }
                 callbackContext.error(error);
             }
@@ -154,9 +156,11 @@ public class PayTM extends CordovaPlugin {
                 Log.i("Error","clientAuthenticationFailed :"+inErrorMessage);
                 JSONObject error = new JSONObject();
                 try {
-                    error.put("errormsg", inErrorMessage);
+                     error.put("STATUS", "TXN_FAILURE");
+                    error.put("RESPCODE", 922);
+                    error.put("RESPMSG", inErrorMessage);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("Error", "Error clientAuthenticationFailed json object creation", e);
                 }
                 callbackContext.error(error);
             }
@@ -166,9 +170,11 @@ public class PayTM extends CordovaPlugin {
                 Log.i("Error","someUIErrorOccurred :"+arg0);
                 JSONObject error = new JSONObject();
                 try {
-                    error.put("errormsg", arg0);
+                    error.put("STATUS", "TXN_FAILURE");
+                    error.put("RESPCODE", 501);
+                    error.put("RESPMSG", "System Error");
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("Error", "Error someUIErrorOccurred json object creation", e);
                 }
                 callbackContext.error(error);
             }
@@ -180,23 +186,26 @@ public class PayTM extends CordovaPlugin {
                 Log.i("Error","onErrorLoadingWebPage arg2  :"+inFailingUrl);
                 JSONObject error = new JSONObject();
                 try {
-                    error.put("errorcode", iniErrorCode);
-                    error.put("errormsg", inErrorMessage);
-                    error.put("errorurl", inFailingUrl);
+                    error.put("STATUS", "TXN_FAILURE");
+                    error.put("RESPCODE", iniErrorCode);
+                    error.put("RESPMSG", inErrorMessage);
+                    error.put("ERRURL", inFailingUrl);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("Error", "Error onErrorLoadingWebPage json object creation", e);
                 }
                 callbackContext.error(error);
             }
 
 			@Override
 			public void onBackPressedCancelTransaction() {
-				Log.i("Error","user cancellation :");
+				Log.i("Error","back button pressed");
                 JSONObject error = new JSONObject();
                 try {
-                    error.put("errormsg", "Transaction cancelled on back button pressed ");
+                    error.put("STATUS", "TXN_FAILURE");
+                    error.put("RESPCODE", 141);
+                    error.put("RESPMSG", "Cancel Request by Customer");
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("Error", "Error onBackPressedCancelTransaction json object creation", e);
                 }
                 callbackContext.error(error);
 			}
@@ -205,11 +214,13 @@ public class PayTM extends CordovaPlugin {
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
                 Log.i("Error","onTransactionFailure :"+inErrorMessage);
                 JSONObject error = new JSONObject();
-                try {
-                    error.put("errormsg", inErrorMessage);
-                    error.put("responsemsg", inResponse.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                Set<String> keys = inResponse.keySet();
+                for (String key : keys) {
+                    try {
+                        json.put(key, wrap(inResponse.get(key)));
+                    } catch(JSONException e) {
+                        Log.e("Error", "Error onTransactionCancel json object creation", e);
+                    }
                 }
                 callbackContext.error(error);
             }      
