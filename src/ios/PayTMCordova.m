@@ -58,7 +58,6 @@
     orderDict[@"EMAIL"] = email;
     orderDict[@"MOBILE_NO"] = phone;
     orderDict[@"CALLBACK_URL"]= callbackurl;
-    orderDict[@"THEME"] = @"merchant";
     
     PGOrder *order = [PGOrder orderWithParams:orderDict];
     

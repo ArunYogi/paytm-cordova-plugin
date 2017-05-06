@@ -114,7 +114,6 @@ public class PayTM extends CordovaPlugin {
         paramMap.put("MOBILE_NO", phone);
         paramMap.put("CALLBACK_URL", callbackurl);
         paramMap.put("CHECKSUMHASH", checksumhash);
-        paramMap.put("THEME", "merchant");
 
         PaytmOrder order = new PaytmOrder(paramMap);
 
