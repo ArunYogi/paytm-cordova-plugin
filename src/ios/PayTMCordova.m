@@ -52,13 +52,13 @@
     //Choose the PG server. In your production build dont call selectServerDialog. Just create a instance of the
     //PGTransactionViewController and set the serverType to eServerTypeProduction
         PGTransactionViewController *txnController = [[PGTransactionViewController alloc] initTransactionForOrder:order];
-        if ([environment  caseInsensitiveCompare: @"production"] == NSOrderedSame) {Ï
+        if ([environment  caseInsensitiveCompare: @"production"] == NSOrderedSame) {
             txnController.serverType = eServerTypeProduction;
         } else {
             txnController.serverType = eServerTypeStaging;
             txnController.useStaging = true;
         }
-        txnController.merchant = mc;
+        txnController.merchant = merchant;
         txnController.delegate = self;
         txnController.loggingEnabled = YES;
         UIViewController *rootVC = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
@@ -90,7 +90,7 @@
  - (void)errorMisssingParameter:(PGTransactionViewController *)controller  error:(NSError *) error {
       DEBUGLOG(@"ViewController::didFinishCASTransaction:error = %@", error);
      CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:@{ @"errorcode": NILABLE([NSNumber numberWithInteger:error.code]),
-                                                                                                                @"errormsg": NILABLE(error.localizedDescription)}]];
+                                                                                                                @"errormsg": NILABLE(error.localizedDescription)}];
      [self.commandDelegate sendPluginResult:result callbackId:callbackId];
      [txnController dismissViewControllerAnimated:YES completion:nil];
  }
