@@ -47,6 +47,7 @@
     //Step 2: Create the order with whatever params you want to add. But make sure that you include the merchant mandatory params
     NSMutableDictionary *orderDict = [NSMutableDictionary new];
     //Merchant configuration in the order object
+    orderDict[@"REQUEST_TYPE"] = @"DEFAULT";
     orderDict[@"MID"] = paytm_merchant_id;
     orderDict[@"ORDER_ID"] = orderId;
     orderDict[@"CUST_ID"] = customerId;
