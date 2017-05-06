@@ -1,26 +1,13 @@
 #import "PayTMCordova.h"
 #import <Cordova/CDV.h>
 
+#define NILABLE(obj) ((obj) != nil ? (NSObject *)(obj) : (NSObject *)[NSNull null])
+
 @implementation PayTMCordova{
     NSString* callbackId;
     PGTransactionViewController* txnController;
 }
 
--(void)showController:(PGTransactionViewController *)controller {
-    if (self.navigationController != nil)
-        [self.navigationController pushViewController:controller animated:YES];
-    else
-        [self presentViewController:controller animated:YES
-                         completion:^{ }];
-}
-
--(void)removeController:(PGTransactionViewController *)controller {
-    if (self.navigationController != nil)
-        [self.navigationController popViewControllerAnimated:YES];
-    else
-        [controller dismissViewControllerAnimated:YES
-                                       completion:^{ }];
-}
 
 - (void)startPayment:(CDVInvokedUrlCommand *)command {
     
@@ -65,18 +52,17 @@
     //Choose the PG server. In your production build dont call selectServerDialog. Just create a instance of the
     //PGTransactionViewController and set the serverType to eServerTypeProduction
         PGTransactionViewController *txnController = [[PGTransactionViewController alloc] initTransactionForOrder:order];
-        switch environment {
-            case "production", "PRODUCTION":
-                txnController.serverType = eServerTypeProduction;
-            default:
-                txnController.serverType = eServerTypeStaging;
-                txnController.useStaging = true;
+        if ([environment  caseInsensitiveCompare: @"production"] == NSOrderedSame) {Ï
+            txnController.serverType = eServerTypeProduction;
+        } else {
+            txnController.serverType = eServerTypeStaging;
+            txnController.useStaging = true;
         }
         txnController.merchant = mc;
         txnController.delegate = self;
         txnController.loggingEnabled = YES;
         UIViewController *rootVC = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-        [self showController:txnController];    
+        [rootVC presentViewController:txnController animated:YES completion:nil];
 }
 
 //Called when a transaction has completed. response dictionary will be having details about Transaction.
