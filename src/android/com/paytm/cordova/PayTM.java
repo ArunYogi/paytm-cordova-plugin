@@ -216,7 +216,7 @@ public class PayTM extends CordovaPlugin {
                 Set<String> keys = inResponse.keySet();
                 for (String key : keys) {
                     try {
-                        json.put(key, wrap(inResponse.get(key)));
+                        error.put(key, wrap(inResponse.get(key)));
                     } catch(JSONException e) {
                         Log.e("Error", "Error onTransactionCancel json object creation", e);
                     }
