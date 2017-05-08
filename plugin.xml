@@ -62,7 +62,7 @@
     <source-file src="src/ios/PayTMCordova.m"/>
 
     <!-- Facebook framework -->
-    <source-file src="src/ios/PayTM/libPaymentsSDK_V2.0.1.a" framework="true"/>
+    <source-file src="src/ios/PayTM/libPaymentsSDK.a" framework="true"/>
   </platform>
 
   <!-- android -->

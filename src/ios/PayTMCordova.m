@@ -89,8 +89,8 @@
 
  - (void)errorMisssingParameter:(PGTransactionViewController *)controller  error:(NSError *) error {
       DEBUGLOG(@"ViewController::didFinishCASTransaction:error = %@", error);
-     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:@{ @"errorcode": NILABLE([NSNumber numberWithInteger:error.code]),
-                                                                                                                @"errormsg": NILABLE(error.localizedDescription)}];
+     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:@{ @"RESCODE": NILABLE([NSNumber numberWithInteger:error.code]),
+                                                                                                                @"RESPMSG": NILABLE(error.localizedDescription)}];
      [self.commandDelegate sendPluginResult:result callbackId:callbackId];
      [txnController dismissViewControllerAnimated:YES completion:nil];
  }
