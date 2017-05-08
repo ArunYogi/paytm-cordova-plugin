@@ -76,7 +76,7 @@
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
         [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     }
-    [txnController dismissViewControllerAnimated:YES completion:nil];
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 //Called when a transaction is Canceled by User. response dictionary will be having details about Canceled Transaction.
@@ -84,15 +84,15 @@
     DEBUGLOG(@"ViewController::didCancelTransaction ");
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Cancelled Transaction"];
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
-    [txnController dismissViewControllerAnimated:YES completion:nil];
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
  - (void)errorMisssingParameter:(PGTransactionViewController *)controller  error:(NSError *) error {
-      DEBUGLOG(@"ViewController::didFinishCASTransaction:error = %@", error);
+      DEBUGLOG(@"ViewController::errorMisssingParameter:error = %@", error);
      CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:@{ @"RESCODE": NILABLE([NSNumber numberWithInteger:error.code]),
                                                                                                                 @"RESPMSG": NILABLE(error.localizedDescription)}];
      [self.commandDelegate sendPluginResult:result callbackId:callbackId];
-     [txnController dismissViewControllerAnimated:YES completion:nil];
+     [controller dismissViewControllerAnimated:YES completion:nil];
  }
 
 @end
