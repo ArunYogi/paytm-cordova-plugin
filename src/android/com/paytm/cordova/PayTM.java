@@ -202,7 +202,7 @@ public class PayTM extends CordovaPlugin {
                 try {
                     error.put("STATUS", "TXN_FAILURE");
                     error.put("RESPCODE", 141);
-                    error.put("RESPMSG", "Cancel Request by Customer");
+                    error.put("RESPMSG", "Request cancelled by Customer");
                 } catch (JSONException e) {
                     Log.e("Error", "Error onBackPressedCancelTransaction json object creation", e);
                 }
@@ -211,7 +211,7 @@ public class PayTM extends CordovaPlugin {
 
             @Override
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
-                Log.i("Error","onTransactionFailure :"+inErrorMessage);
+                Log.i("Error","onTransactionCancel :"+inErrorMessage);
                 JSONObject error = new JSONObject();
                 Set<String> keys = inResponse.keySet();
                 for (String key : keys) {
