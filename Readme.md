@@ -1,6 +1,7 @@
 Installation
 ============
 
+
 ```
 cordova plugin add cordova-plugin-paytm --variable MERCHANT_ID=<MerchantID> --variable INDUSTRY_TYPE_ID=<IndustryType> --variable WEBSITE=<WAPWebsiteName> --save
 ```
@@ -20,7 +21,7 @@ declare var paytm : any;
 ```
 
 ```
-paytm.startPayment(txn_id, customer_id, email, phone, amount, callbackurl, environment, successCallback, failureCallback);
+paytm.startPayment(options, successCallback, failureCallback);
 ```
 
 In SuccessCallback method, you will get response object as json, with infromation present in http://paywithpaytm.com/developer/paytm_api_doc?target=interpreting-response-sent-by-paytm
@@ -43,5 +44,7 @@ var failureCallback(error) {
     alert("Transaction Failed for reason " + error.RESPMSG);
 }
 ```
-
-NOTE: Send transaction amount in String format, as that is the format accepted in iOS platform.
+Note: 
+# Version 0.0.3 is not backward compatibile with 0.0.2. In v0.0.3, send options as JSON object where in 0.0.2, send each value separately i.e (txn_id, customer_id, email, phone, amount, callbackurl, environment,..,..)
+# Environment info says which environment you are trying to test. Possible values are 'staging' and 'prodcution'.
+# Send transaction amount in String format, as that is the format accepted in iOS platform.
