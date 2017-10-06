@@ -1,23 +1,41 @@
 {
     "version": "0.0.2",
-    "name": "com.paytm.cordova",
+    "name": "cordova-plugin-paytm",
     "cordova_name": "PayTM",
-    "description": "\n      This Plugin allows you to integrate PayTM application into a cordova app.",
+    "description": "This Plugin allows you to integrate PayTM application into a cordova app.",
     "license": "MIT",
-    "repo": "https://github.com/ArunYogi/paytm-cordova-plugin.git",
-    "issue": "https://github.com/ArunYogi/paytm-cordova-plugin/issues",
+    "homepage": "https://github.com/ArunYogi/paytm-cordova-plugin#readme",
+    "author": "Arun Yokesh Kumar",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ArunYogi/paytm-cordova-plugin.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ArunYogi/paytm-cordova-plugin/issues"
+    },
+    "cordova": {
+        "id": "cordova-plugin-paytm",
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    },
     "keywords": [
+        "ecosystem:cordova",
+        "cordova-android",
+        "cordova-ios",
         "PayTM",
-        " Payment",
-        " Gateway",
-        " Mobile"
+        "Payment",
+        "Gateway",
+        "Mobile"
     ],
     "platforms": [
         "ios",
         "android"
     ],
-    "engines": [{
-        "name": "cordova",
-        "version": ">=3.4.0"
-    }]
+    "engines": {
+        "cordovaDependencies": {
+            "0.0.2": { "cordova": ">=3.4.0" }
+        }
+    }
 }
