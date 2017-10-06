@@ -2,7 +2,7 @@ Installation
 ============
 
 ```
-cordova plugin add https://github.com/ArunYogi/paytm-cordova-plugin.git --variable MERCHANT_ID=<MerchantID> --variable INDUSTRY_TYPE_ID=<IndustryType> --variable WEBSITE=<WAPWebsiteName> --save
+cordova plugin add cordova-plugin-paytm --variable MERCHANT_ID=<MerchantID> --variable INDUSTRY_TYPE_ID=<IndustryType> --variable WEBSITE=<WAPWebsiteName> --save
 ```
 
 Supported Platform
