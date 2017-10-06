@@ -12,15 +12,8 @@
 - (void)startPayment:(CDVInvokedUrlCommand *)command {
     
     callbackId = command.callbackId;
-//    orderId, customerId, email, phone, amount, checksumhash
-    NSString *orderId  = [command.arguments objectAtIndex:0];
-    NSString *customerId = [command.arguments objectAtIndex:1];
-    NSString *email = [command.arguments objectAtIndex:2];
-    NSString *phone = [command.arguments objectAtIndex:3];
-    NSString *amount = [command.arguments objectAtIndex:4];
-    NSString *checksumhash = [command.arguments objectAtIndex:5];
-    NSString *callbackurl = [command.arguments objectAtIndex:6];
-    NSString *environment = [command.arguments objectAtIndex:7];
+    NSDictionary *options = [NSJSONSerialization JSONObjectWithData:[[[command arguments] objectAtIndex:0]
+                             dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     
     NSBundle* mainBundle;
     mainBundle = [NSBundle mainBundle];
@@ -32,21 +25,15 @@
     PGMerchantConfiguration* merchant = [PGMerchantConfiguration defaultConfiguration];
     
     //Step 2: Create the order with whatever params you want to add. But make sure that you include the merchant mandatory params
-    NSMutableDictionary *orderDict = [NSMutableDictionary new];
+    NSMutableDictionary *orderDict = [options mutableCopy];
+    NSString *environment=orderDict[@"ENVIRONMENT"];
+    [orderDict removeObjectForKey:@"ENVIRONMENT"];
     //Merchant configuration in the order object
-    orderDict[@"REQUEST_TYPE"] = @"DEFAULT";
     orderDict[@"MID"] = paytm_merchant_id;
-    orderDict[@"ORDER_ID"] = orderId;
-    orderDict[@"CUST_ID"] = customerId;
     orderDict[@"INDUSTRY_TYPE_ID"] = paytm_ind_type_id;
     orderDict[@"CHANNEL_ID"] = @"WAP";
-    orderDict[@"TXN_AMOUNT"] = amount;
     orderDict[@"WEBSITE"] = paytm_website;
-    orderDict[@"CHECKSUMHASH"] = checksumhash;
-    orderDict[@"EMAIL"] = email;
-    orderDict[@"MOBILE_NO"] = phone;
-    orderDict[@"CALLBACK_URL"]= callbackurl;
-    
+
     PGOrder *order = [PGOrder orderWithParams:orderDict];
     
     //Choose the PG server. In your production build dont call selectServerDialog. Just create a instance of the
