@@ -97,7 +97,7 @@ public class PayTM extends CordovaPlugin {
         Map<String, String> paramMap = new HashMap<String, String>();
         Iterator optkeys = jsonobj.keys();
         while (optkeys.hasNext()) {
-            String key = optkeys.next();
+            String key = (String) optkeys.next();
             paramMap.put(key, jsonobj.getString(key));
         }
         paramMap.remove("ENVIRONMENT");
