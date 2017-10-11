@@ -46,5 +46,5 @@ var failureCallback(error) {
 ```
 Note: 
 # Version 0.0.3 is not backward compatibile with 0.0.2. In v0.0.3, send options as JSON object where in 0.0.2, send each value separately i.e (txn_id, customer_id, email, phone, amount, callbackurl, environment,..,..)
-# Environment info says which environment you are trying to test. Possible values are 'staging' and 'prodcution'.
+# ENVIRONMENT info has to be part of 'options', which says the environment  transaction has to be started. Possible values are 'staging' and 'production'.
 # Send transaction amount in String format, as that is the format accepted in iOS platform.
