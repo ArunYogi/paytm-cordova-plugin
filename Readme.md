@@ -84,12 +84,14 @@ Response:
 CHECKSUM has to be created without "ENVIRONMENT" field, it is for plugin's internal use to determine which environment it's going to hit.
 
 References:
-[Various fields avialbale in "options"](http://paywithpaytm.com/developer/paytm_api_doc?target=transaction-request-api)
-[Doc on response from the plugin](http://paywithpaytm.com/developer/paytm_api_doc?target=interpreting-response-sent-by-paytm)
-[Logic to generate checksum](http://paywithpaytm.com/developer/paytm_api_doc?target=generating-checksum)
-Paytm guys suggests to verify the transaction status manually after the successful transaction. [Refer this link to know about it](http://paywithpaytm.com/developer/paytm_api_doc?target=txn-status-api)
+===========
+* [Various fields avialbale in "options"](http://paywithpaytm.com/developer/paytm_api_doc?target=transaction-request-api)
+* [Doc on response from the plugin](http://paywithpaytm.com/developer/paytm_api_doc?target=interpreting-response-sent-by-paytm)
+* [Logic to generate checksum](http://paywithpaytm.com/developer/paytm_api_doc?target=generating-checksum)
+* Paytm suggests to verify the transaction status manually after the successful transaction. [Refer this link to know about it](http://paywithpaytm.com/developer/paytm_api_doc?target=txn-status-api)
 
 Note:
+=====
 * Version 0.0.3 is not backward compatibile with 0.0.2. In v0.0.3, send options as JSON object where in 0.0.2, send each value separately i.e (txn_id, customer_id, email, phone, amount, callbackurl, environment,..,..)
 * ENVIRONMENT info has to be part of 'options', which says the environment  transaction has to be started. Possible values are 'staging' and 'production'.
 * Send transaction amount in String format, as that is the format accepted in iOS platform.
