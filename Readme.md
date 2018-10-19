@@ -6,6 +6,9 @@ Installation
 cordova plugin add cordova-plugin-paytm --variable MERCHANT_ID=<MerchantID> --variable INDUSTRY_TYPE_ID=<IndustryType> --variable WEBSITE=<WAPWebsiteName> --save
 ```
 
+**Note: -** For Ionic Implementation, refer [README-IONIC.md](https://github.com/ArunYogi/paytm-cordova-plugin/blob/master/README-IONIC.md)
+
+
 Supported Platform
 ==================
 Android
