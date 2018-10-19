@@ -1,14 +1,14 @@
-# Cordova Plugin For PayTM Integration
+# Implementation of Cordova Plugin in Ionic App For PayTM Integration
 
 This plugin can be used to integrate PayTM Payment Gateway in your Cordova App.
 
-_Compatible with Ionic Framework._
+In this doc, you'll find how to implemenat this plugin in an Ionic App.
 
 ## Getting Started
 
 ### Prerequisites
 
-1. PayTM Credentials
+1. **PayTM Credentials**
 
     Firstly, you'll have to register on PayTM Business as a Merchant for PayTM Gateway Credentials.
     
@@ -22,7 +22,7 @@ _Compatible with Ionic Framework._
     * Industry Type
 
 
-2. Checksum Generation and Verification API
+2. **Checksum Generation and Verification API**
     
     Visit the [PayTM Gateway Docs](https://developer.paytm.com/docs/v1/payment-gateway) and implement the provided Checksum Generation and Verification Functions on your back-end/server (_like Firebase Cloud Functions_).
 
@@ -45,6 +45,7 @@ _Compatible with Ionic Framework._
 3. Ensure the plugin entry in `config.xml`.
     
     _For e.g.: -_
+    _(Staging Environment)_
     ```
     <plugin name="cordova-plugin-paytm" spec="0.0.4">
         <variable name="MERCHANT_ID" value="ABC12345" />
@@ -54,7 +55,7 @@ _Compatible with Ionic Framework._
 
 ### Usage
 
-1. Before proceeding, check whether Cordova is present.
+1. **Before proceeding, check whether Cordova is present.**
     ```
     if (!(<any>window).cordova) {
         // Cordova Not Present
@@ -64,7 +65,7 @@ _Compatible with Ionic Framework._
     }
     ```
 
-2. Prepare Transaction request as per the [PayTM Gateway Docs](https://developer.paytm.com/docs/v1/payment-gateway).
+2. **Prepare Transaction request** as per the [PayTM Gateway Docs](https://developer.paytm.com/docs/v1/payment-gateway).
 
     For e.g.: -
     ```
@@ -79,7 +80,7 @@ _Compatible with Ionic Framework._
     }
     ```
 
-3. Add Callback URL to the Transaction Request. 
+3. **Add Callback URL to the Transaction Request.**
 
     Please note that you have to add the latest Android/iOS SDK CALLBACK URL from [here](https://developer.paytm.com/docs/v1/android-sdk).
 
@@ -95,7 +96,7 @@ _Compatible with Ionic Framework._
     ```
 
 
-4. Generate Checksum for Transaction Request by sending the `TxnRequest` to the Checksum generation function. 
+4. **Generate Checksum for Transaction Request** by sending the `TxnRequest` to the Checksum generation function. 
 
     **Note: -** _CHECKSUMHASH has to be created without `ENVIRONMENT` property._ 
     _`ENVIRONMENT` Property is used by the plugin to determine which Transaction Endpoint to hit, and is removed before sending Request to PayTM._
@@ -110,7 +111,7 @@ _Compatible with Ionic Framework._
     ```
 
 
-5. Add `"ENVIRONMENT"` Property to the Request.
+5. **Add `"ENVIRONMENT"` Property to the Request.**
 
     `ENVIRONMENT` Property is used by the plugin to determine which Transaction Endpoint to use, 'staging' or 'production', and is removed before sending Request to PayTM. 
 
@@ -123,7 +124,7 @@ _Compatible with Ionic Framework._
     ```
 
 
-6. Define the `successCallback` and `failureCallback`.
+6. **Define the `successCallback` and `failureCallback`.**
 
     These Callbacks will be used by the Plugin. 
     
@@ -157,7 +158,7 @@ _Compatible with Ionic Framework._
     }
     ```
 
-7. Call the plugin and Initiate the Payment.
+7. **Call the plugin and Initiate the Payment.**
 
     ```
     (<any>window).paytm.startPayment(
@@ -183,7 +184,7 @@ _Compatible with Ionic Framework._
     }
     ```
 
-8. Verify Transaction Status and Transaction Amount as per the [PayTM Gateway Docs](https://developer.paytm.com/docs/).
+8. **Verify Transaction Status and Transaction Amount** as per the [PayTM Gateway Docs](https://developer.paytm.com/docs/).
 
 
 
@@ -251,6 +252,6 @@ It is used by the plugin to determine which Transaction Endpoint to use, and is 
     *Solution: -*
     This issue is faced when either
     
-    1. `CALLBACK_URL` is wrong.
-    2. `WEBSITE` is not set to `APPSTAGING` (Incase of stagin environment).
-    3. `CALLBACK_URL` is blocked or wrongly configured at PayTM's end. Contact PayTM Support in this case.
+    * `CALLBACK_URL` is wrong.
+    * `WEBSITE` is not set to `APPSTAGING` (Incase of stagin environment).
+    * `CALLBACK_URL` is blocked or wrongly configured at PayTM's end. Contact PayTM Support in this case.
