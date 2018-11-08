@@ -4,14 +4,14 @@
     "cordova_name": "PayTM",
     "description": "This Plugin allows you to integrate PayTM application into a cordova app.",
     "license": "MIT",
-    "homepage": "https://github.com/ArunYogi/paytm-cordova-plugin#readme",
+    "homepage": "https://github.com/YaMo97/paytm-cordova-plugin#readme",
     "author": "Arun Yokesh Kumar",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ArunYogi/paytm-cordova-plugin.git"
+        "url": "git+https://github.com/YaMo97/paytm-cordova-plugin.git"
     },
     "bugs": {
-        "url": "https://github.com/ArunYogi/paytm-cordova-plugin/issues"
+        "url": "https://github.com/YaMo97/paytm-cordova-plugin/issues"
     },
     "cordova": {
         "id": "cordova-plugin-paytm",

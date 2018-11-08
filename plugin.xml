@@ -16,9 +16,9 @@
 
   <keywords>PayTM, Payment, Gateway, Mobile</keywords>
 
-  <repo>https://github.com/ArunYogi/paytm-cordova-plugin.git</repo>
+  <repo>https://github.com/YaMo97/paytm-cordova-plugin.git</repo>
 
-  <issue>https://github.com/ArunYogi/paytm-cordova-plugin/issues</issue>
+  <issue>https://github.com/YaMo97/paytm-cordova-plugin/issues</issue>
 
   <preference name="MERCHANT_ID" />
   <preference name="INDUSTRY_TYPE_ID" />
