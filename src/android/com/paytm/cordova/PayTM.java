@@ -95,7 +95,7 @@ public class PayTM extends CordovaPlugin {
             } else {
                 this.paytm_service = PaytmPGService.getStagingService();
             }
-            Map<String, String> paramMap = new HashMap<String, String>();
+            HashMap<String, String> paramMap = new HashMap<String, String>();
             Iterator optkeys = jsonobj.keys();
             while (optkeys.hasNext()) {
                 String key = (String) optkeys.next();
