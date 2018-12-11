@@ -1,5 +1,5 @@
 {
-    "version": "0.0.4",
+    "version": "0.0.5",
     "name": "cordova-plugin-paytm",
     "cordova_name": "PayTM",
     "description": "This Plugin allows you to integrate PayTM application into a cordova app.",
