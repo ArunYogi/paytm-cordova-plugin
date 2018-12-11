@@ -78,34 +78,31 @@ public class PayTM extends CordovaPlugin {
         if (action.equals("startPayment")) {
             //orderid, cust_id, email, phone, txn_amt
             String options = args.getString(0);
-
-            startPayment(options, callbackContext);
+            String env = args.getString(1);
+            startPayment(options, env, callbackContext);
             return true;
         }
         return false;
     }
 
-    private void startPayment(String options, final CallbackContext callbackContext) {
+    private void startPayment(String options, String env, final CallbackContext callbackContext) {
         try {
             JSONObject jsonobj = new JSONObject(options);
 
-            String env = jsonobj.getString("ENVIRONMENT");
             if ("production".equalsIgnoreCase(env)) {
                 this.paytm_service = PaytmPGService.getProductionService();
             } else {
                 this.paytm_service = PaytmPGService.getStagingService();
             }
-            Map<String, String> paramMap = new HashMap<String, String>();
+            HashMap<String, String> paramMap = new HashMap<String, String>();
             Iterator optkeys = jsonobj.keys();
             while (optkeys.hasNext()) {
                 String key = (String) optkeys.next();
                 paramMap.put(key, jsonobj.getString(key));
             }
-            paramMap.remove("ENVIRONMENT");
             paramMap.put("MID", PAYTM_MERCHANT_ID);
             paramMap.put("INDUSTRY_TYPE_ID", PAYTM_INDUSTRY_TYPE_ID);
             paramMap.put("WEBSITE", PAYTM_WEBSITE);
-
             PaytmOrder order = new PaytmOrder(paramMap);
 
             this.paytm_service.initialize(order, null);
@@ -114,14 +111,14 @@ public class PayTM extends CordovaPlugin {
 
                         @Override
                         public void onTransactionResponse(Bundle inResponse) {
-                            Log.i("Error", "onTransactionSuccess :" + inResponse);
+                            Log.i("PayTM", "onTransactionSuccess :" + inResponse);
                             JSONObject json = new JSONObject();
                             Set<String> keys = inResponse.keySet();
                             for (String key : keys) {
                                 try {
                                     json.put(key, wrap(inResponse.get(key)));
                                 } catch (JSONException e) {
-                                    Log.e("Error", "Error onTransactionSuccess response parsing", e);
+                                    Log.e("PayTM", "Error onTransactionSuccess response parsing", e);
                                 }
                             }
                             callbackContext.success(json);
@@ -129,42 +126,42 @@ public class PayTM extends CordovaPlugin {
 
                         @Override
                         public void networkNotAvailable() {
-                            Log.i("Error", "networkNotAvailable");
+                            Log.i("PayTM", "networkNotAvailable");
                             JSONObject error = new JSONObject();
                             try {
                                 error.put("STATUS", "TXN_FAILURE");
                                 error.put("RESPCODE", 501);
                                 error.put("RESPMSG", "Network Not Available");
                             } catch (JSONException e) {
-                                Log.e("Error", "Error networkNotAvailable json object creation", e);
+                                Log.e("PayTM", "Error networkNotAvailable json object creation", e);
                             }
                             callbackContext.error(error);
                         }
 
                         @Override
                         public void clientAuthenticationFailed(String inErrorMessage) {
-                            Log.i("Error", "clientAuthenticationFailed :" + inErrorMessage);
+                            Log.i("PayTM", "clientAuthenticationFailed :" + inErrorMessage);
                             JSONObject error = new JSONObject();
                             try {
                                 error.put("STATUS", "TXN_FAILURE");
                                 error.put("RESPCODE", 922);
                                 error.put("RESPMSG", inErrorMessage);
                             } catch (JSONException e) {
-                                Log.e("Error", "Error clientAuthenticationFailed json object creation", e);
+                                Log.e("PayTM", "Error clientAuthenticationFailed json object creation", e);
                             }
                             callbackContext.error(error);
                         }
 
                         @Override
                         public void someUIErrorOccurred(String arg0) {
-                            Log.i("Error", "someUIErrorOccurred :" + arg0);
+                            Log.i("PayTM", "someUIErrorOccurred :" + arg0);
                             JSONObject error = new JSONObject();
                             try {
                                 error.put("STATUS", "TXN_FAILURE");
                                 error.put("RESPCODE", 501);
                                 error.put("RESPMSG", "System Error");
                             } catch (JSONException e) {
-                                Log.e("Error", "Error someUIErrorOccurred json object creation", e);
+                                Log.e("PayTM", "Error someUIErrorOccurred json object creation", e);
                             }
                             callbackContext.error(error);
                         }
@@ -172,9 +169,9 @@ public class PayTM extends CordovaPlugin {
                         @Override
                         public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage,
                                 String inFailingUrl) {
-                            Log.i("Error", "onErrorLoadingWebPage arg0  :" + iniErrorCode);
-                            Log.i("Error", "onErrorLoadingWebPage arg1  :" + inErrorMessage);
-                            Log.i("Error", "onErrorLoadingWebPage arg2  :" + inFailingUrl);
+                            Log.i("PayTM", "onErrorLoadingWebPage arg0  :" + iniErrorCode);
+                            Log.i("PayTM", "onErrorLoadingWebPage arg1  :" + inErrorMessage);
+                            Log.i("PayTM", "onErrorLoadingWebPage arg2  :" + inFailingUrl);
                             JSONObject error = new JSONObject();
                             try {
                                 error.put("STATUS", "TXN_FAILURE");
@@ -182,35 +179,35 @@ public class PayTM extends CordovaPlugin {
                                 error.put("RESPMSG", inErrorMessage);
                                 error.put("ERRURL", inFailingUrl);
                             } catch (JSONException e) {
-                                Log.e("Error", "Error onErrorLoadingWebPage json object creation", e);
+                                Log.e("PayTM", "Error onErrorLoadingWebPage json object creation", e);
                             }
                             callbackContext.error(error);
                         }
 
                         @Override
                         public void onBackPressedCancelTransaction() {
-                            Log.i("Error", "back button pressed");
+                            Log.i("PayTM", "back button pressed");
                             JSONObject error = new JSONObject();
                             try {
                                 error.put("STATUS", "TXN_FAILURE");
                                 error.put("RESPCODE", 141);
                                 error.put("RESPMSG", "Request cancelled by Customer");
                             } catch (JSONException e) {
-                                Log.e("Error", "Error onBackPressedCancelTransaction json object creation", e);
+                                Log.e("PayTM", "Error onBackPressedCancelTransaction json object creation", e);
                             }
                             callbackContext.error(error);
                         }
 
                         @Override
                         public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
-                            Log.i("Error", "onTransactionCancel :" + inErrorMessage);
+                            Log.i("PayTM", "onTransactionCancel :" + inErrorMessage);
                             JSONObject error = new JSONObject();
                             Set<String> keys = inResponse.keySet();
                             for (String key : keys) {
                                 try {
                                     error.put(key, wrap(inResponse.get(key)));
                                 } catch (JSONException e) {
-                                    Log.e("Error", "Error onTransactionCancel json object creation", e);
+                                    Log.e("PayTM", "Error onTransactionCancel json object creation", e);
                                 }
                             }
                             callbackContext.error(error);
@@ -218,14 +215,14 @@ public class PayTM extends CordovaPlugin {
 
                     });
         } catch (Exception e) {
-            Log.e("Error", "Error on Input param parsing", e);
+            Log.e("PayTM", "Error on Input param parsing", e);
             JSONObject error = new JSONObject();
             try {
                 error.put("STATUS", "TXN_FAILURE");
                 error.put("RESPCODE", 501);
                 error.put("RESPMSG", "Network Not Available");
             } catch (JSONException exp) {
-                Log.e("Error", "Error networkNotAvailable json object creation", exp);
+                Log.e("PayTM", "Error networkNotAvailable json object creation", exp);
             }
             callbackContext.error(error);
         }

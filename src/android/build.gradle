@@ -1,0 +1,4 @@
+repositories { flatDir { dirs 'libs' } }
+dependencies {
+    compile(name: 'pgplussdk-1.2.3', ext: 'aar')
+}
