@@ -24,7 +24,7 @@ declare var paytm : any;
 ```
 
 ```
-paytm.startPayment(options, environment, successCallback, failureCallback);
+paytm.startPayment(options, successCallback, failureCallback);
 ```
 
 In SuccessCallback method, you will get response object as json, with infromation present in http://paywithpaytm.com/developer/paytm_api_doc?target=interpreting-response-sent-by-paytm
@@ -51,6 +51,7 @@ var failureCallback(error) {
 Expected "Options" that has to be send to the plugin to start the transactions is
 ```
 {
+  "ENVIRONMENT" : "staging",
   "REQUEST_TYPE": "DEFAULT",
   "MID": "PAYTM_MERCHANT_ID",
   "ORDER_ID": "ORDER0000000001",
@@ -65,6 +66,9 @@ Expected "Options" that has to be send to the plugin to start the transactions i
   "CHECKSUMHASH": "w2QDRMgp1/BNdEnJEAPCIOmNgQvsi+BhpqijfM9KvFfRiPmGSt3Ddzw+oTaGCLneJwxFFq5mqTMwJXdQE2EzK4px2xruDqKZjHupz9yXev4="
 }
 ```
+
+**CHECKSUM has to be created without "ENVIRONMENT" field info, it is only for plugin's internal use to determine which environment it's going to hit (staging/production).**
+
 Response:
 ```
 {
@@ -84,7 +88,6 @@ Response:
   "TXNDATE": "2015-11-02 11:40:46.0"
 }
 ```
-"ENVIRONMENT" (staging/production) has to be sent as separate field to method call
 
 References:
 ===========
@@ -96,7 +99,6 @@ References:
 Note:
 =====
 * Version 0.0.4 
-  ** Updated the paytm library to v1.2.3 in android and latest (as of 6 Dec 2018 ) lib file in ios.
-  ** Environment has to be passed as separate field, as it is causing misunderstanding in communication with paytm team.
+  * Updated the paytm library to v1.2.3 in android and latest (as of 6 Dec 2018 ) lib file in ios.
 * Version 0.0.3 is not backward compatibile with 0.0.2. In v0.0.3, send options as JSON object where in 0.0.2, send each value separately i.e (txn_id, customer_id, email, phone, amount, callbackurl, environment,..,..)
 * Send transaction amount in String format, as that is the format accepted in iOS platform.

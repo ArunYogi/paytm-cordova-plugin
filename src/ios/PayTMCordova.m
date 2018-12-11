@@ -14,7 +14,6 @@
     callbackId = command.callbackId;
     NSDictionary *options = [NSJSONSerialization JSONObjectWithData:[[[command arguments] objectAtIndex:0]
                              dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    NSString *environment = command.arguments[1];
     
     NSBundle* mainBundle;
     mainBundle = [NSBundle mainBundle];
@@ -27,6 +26,8 @@
     
     //Step 2: Create the order with whatever params you want to add. But make sure that you include the merchant mandatory params
     NSMutableDictionary *orderDict = [options mutableCopy];
+    NSString *environment=orderDict[@"ENVIRONMENT"];
+    [orderDict removeObjectForKey:@"ENVIRONMENT"];
     //Merchant configuration in the order object
     orderDict[@"MID"] = paytm_merchant_id;
     orderDict[@"INDUSTRY_TYPE_ID"] = paytm_ind_type_id;

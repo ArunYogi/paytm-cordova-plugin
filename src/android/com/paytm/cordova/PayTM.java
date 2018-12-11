@@ -78,17 +78,18 @@ public class PayTM extends CordovaPlugin {
         if (action.equals("startPayment")) {
             //orderid, cust_id, email, phone, txn_amt
             String options = args.getString(0);
-            String env = args.getString(1);
-            startPayment(options, env, callbackContext);
+
+            startPayment(options, callbackContext);
             return true;
         }
         return false;
     }
 
-    private void startPayment(String options, String env, final CallbackContext callbackContext) {
+    private void startPayment(String options, final CallbackContext callbackContext) {
         try {
             JSONObject jsonobj = new JSONObject(options);
 
+            String env = jsonobj.getString("ENVIRONMENT");
             if ("production".equalsIgnoreCase(env)) {
                 this.paytm_service = PaytmPGService.getProductionService();
             } else {
@@ -100,9 +101,11 @@ public class PayTM extends CordovaPlugin {
                 String key = (String) optkeys.next();
                 paramMap.put(key, jsonobj.getString(key));
             }
+            paramMap.remove("ENVIRONMENT");
             paramMap.put("MID", PAYTM_MERCHANT_ID);
             paramMap.put("INDUSTRY_TYPE_ID", PAYTM_INDUSTRY_TYPE_ID);
             paramMap.put("WEBSITE", PAYTM_WEBSITE);
+            Log.i("PayTM", "Input params :" + paramMap);
             PaytmOrder order = new PaytmOrder(paramMap);
 
             this.paytm_service.initialize(order, null);
