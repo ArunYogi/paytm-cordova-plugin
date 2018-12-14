@@ -98,6 +98,8 @@ References:
 
 Note:
 =====
+* Version 0.0.6
+  * Removed library and used gradle depencies to pull paytm library
 * Version 0.0.5 
   * Updated the paytm library to v1.2.3 in android and latest (as of 6 Dec 2018 ) lib file in ios.
 * Version 0.0.3 is not backward compatibile with 0.0.2. In v0.0.3, send options as JSON object where in 0.0.2, send each value separately i.e (txn_id, customer_id, email, phone, amount, callbackurl, environment,..,..)
