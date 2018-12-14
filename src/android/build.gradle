@@ -1,4 +1,5 @@
-repositories { flatDir { dirs 'libs' } }
 dependencies {
-    compile(name: 'pgplussdk-1.2.3', ext: 'aar')
+	compile('com.paytm:pgplussdk:1.2.3') {
+		transitive = true; 
+	}
 }
