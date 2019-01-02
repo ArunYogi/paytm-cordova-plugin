@@ -23,9 +23,30 @@ Add below line to declaration.d.ts file
 declare var paytm : any;
 ```
 
+Now you can start a transaction by using below lines
 ```
 paytm.startPayment(options, successCallback, failureCallback);
 ```
+"options" is where you send payment, payee & collector information to paytm plugin. Sample "options" that has to be send to the plugin to start the transactions is
+```
+{
+  "ENVIRONMENT" : "staging", // environment details. staging for test environment & production for live environment
+  "REQUEST_TYPE": "DEFAULT", // You would get this details from paytm after opening an account with them
+  "MID": "PAYTM_MERCHANT_ID", // You would get this details from paytm after opening an account with them
+  "ORDER_ID": "ORDER0000000001", // Unique ID for each transaction. This info is for you to track the transaction details
+  "CUST_ID": "10000988111", // Unique ID for your customer
+  "INDUSTRY_TYPE_ID": "PAYTM_INDUSTRY_TYPE_ID", // You would get this details from paytm after opening an account with them
+  "CHANNEL_ID": "WAP", // You would get this details from paytm after opening an account with them
+  "TXN_AMOUNT": "1", // Transaction amount that has to be collected
+  "WEBSITE": "PAYTM_WEBSITE", // You would get this details from paytm after opening an account with them
+  "CALLBACK_URL": "https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=ORDER0000000001", // Callback url
+  "EMAIL": "abc@gmail.com", // Email of customer
+  "MOBILE_NO": "9999999999", // Mobile no of customer
+  "CHECKSUMHASH": "w2QDRMgp1/BNdEnJEAPCIOmNgQvsi+BhpqijfM9KvFfRiPmGSt3Ddzw+oTaGCLneJwxFFq5mqTMwJXdQE2EzK4px2xruDqKZjHupz9yXev4="
+}
+```
+
+**CHECKSUM has to be created without "ENVIRONMENT" field info, it is only for plugin's internal use to determine which environment it's going to hit (staging/production).**
 
 In SuccessCallback method, you will get response object as json, with infromation present in http://paywithpaytm.com/developer/paytm_api_doc?target=interpreting-response-sent-by-paytm
 ```
@@ -48,28 +69,7 @@ var failureCallback(error) {
 }
 ```
 
-Expected "Options" that has to be send to the plugin to start the transactions is
-```
-{
-  "ENVIRONMENT" : "staging",
-  "REQUEST_TYPE": "DEFAULT",
-  "MID": "PAYTM_MERCHANT_ID",
-  "ORDER_ID": "ORDER0000000001",
-  "CUST_ID": "10000988111",
-  "INDUSTRY_TYPE_ID": "PAYTM_INDUSTRY_TYPE_ID",
-  "CHANNEL_ID": "WAP",
-  "TXN_AMOUNT": "1",
-  "WEBSITE": "PAYTM_WEBSITE",
-  "CALLBACK_URL": "https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=ORDER0000000001",
-  "EMAIL": "abc@gmail.com",
-  "MOBILE_NO": "9999999999",
-  "CHECKSUMHASH": "w2QDRMgp1/BNdEnJEAPCIOmNgQvsi+BhpqijfM9KvFfRiPmGSt3Ddzw+oTaGCLneJwxFFq5mqTMwJXdQE2EzK4px2xruDqKZjHupz9yXev4="
-}
-```
-
-**CHECKSUM has to be created without "ENVIRONMENT" field info, it is only for plugin's internal use to determine which environment it's going to hit (staging/production).**
-
-Response:
+Sample response for paytm:
 ```
 {
   "TXNID": "414709",
