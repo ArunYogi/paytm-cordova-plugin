@@ -1,5 +1,5 @@
 dependencies {
-	compile('com.paytm:pgplussdk:1.2.3') {
+	compile('com.paytm:pgplussdk:1.1.5') {
 		transitive = true; 
 	}
 }
