@@ -98,6 +98,8 @@ References:
 
 Note:
 =====
+* Version 0.0.7
+  * Upgraded Paytm library which has fixes related to redirecting control from paytm site to mobile app
 * Version 0.0.6
   * Removed library and used gradle depencies to pull paytm library
 * Version 0.0.5 
