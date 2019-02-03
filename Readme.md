@@ -98,6 +98,8 @@ References:
 
 Note:
 =====
+* Version 0.0.8
+  * Decreased cordova support version for older apps
 * Version 0.0.7
   * Upgraded Paytm library which has fixes related to redirecting control from paytm site to mobile app
 * Version 0.0.6

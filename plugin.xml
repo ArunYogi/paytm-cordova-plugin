@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-paytm"
-        version="0.0.7">
+        version="0.0.8">
 
   <name>PayTM</name>
 
@@ -25,9 +25,7 @@
   <preference name="WEBSITE" />
 
   <engines>
-    <engine name="cordova" version=">=7.1.0"/>
-    <engine name="cordova-android" version=">=7.1.0"/>
-    <engine name="cordova-ios" version=">=4.5.0"/>
+    <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
  <asset src="www/paytm.js" target="js/paytm.js"/>
