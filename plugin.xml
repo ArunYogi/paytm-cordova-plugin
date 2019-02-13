@@ -93,6 +93,5 @@
 
     <source-file src="src/android/com/paytm/cordova/PayTM.java" target-dir="src/com/paytm/cordova"/>
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
-    <framework src="com.android.support:support-v4:26.+"/>
   </platform>
 </plugin>
