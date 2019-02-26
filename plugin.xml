@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-paytm"
-        version="0.0.8">
+        version="0.0.9">
 
   <name>PayTM</name>
 
@@ -26,6 +26,7 @@
 
   <engines>
     <engine name="cordova" version=">=3.4.0"/>
+    <engine name="cordova-android" version=">=7.0.0">
   </engines>
 
  <asset src="www/paytm.js" target="js/paytm.js"/>
@@ -74,8 +75,8 @@
       </feature>
     </config-file>
 
-    <source-file src="app/src/android/res/values/paytmcordova.xml" target-dir="res/values" />
-    <config-file target="res/values/paytmcordova.xml" parent="/*">
+    <source-file src="src/android/res/values/paytmcordova.xml" target-dir="res/values" />
+    <config-file target="app/src/main/res/values/paytmcordova.xml" parent="/*">
         <string name="paytm_merchant_id">$MERCHANT_ID</string>
         <string name="paytm_industry_type_id">$INDUSTRY_TYPE_ID</string>
         <string name="paytm_website">$WEBSITE</string>
@@ -84,8 +85,6 @@
     <config-file target="app/src/main/AndroidManifest.xml" parent="/*">
         <uses-permission android:name="android.permission.INTERNET"/>
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-        <uses-permission android:name="android.permission.READ_SMS"/>
-        <uses-permission android:name="android.permission.RECEIVE_SMS"/>  
     </config-file>
     <config-file target="app/src/main/AndroidManifest.xml" parent="application">
         <activity android:name="com.paytm.pgsdk.PaytmPGActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation|keyboard"/>
@@ -93,5 +92,6 @@
 
     <source-file src="src/android/com/paytm/cordova/PayTM.java" target-dir="src/com/paytm/cordova"/>
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
+    <framework src="com.android.support:support-v4:26.+"/>
   </platform>
 </plugin>

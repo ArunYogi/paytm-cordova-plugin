@@ -98,6 +98,8 @@ References:
 
 Note:
 =====
+* Version 0.0.9
+  * Corrected the file path of config xml file in plugin.xml
 * Version 0.0.8
   * Decreased cordova support version for older apps
 * Version 0.0.7
