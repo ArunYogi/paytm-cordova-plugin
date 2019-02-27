@@ -47,7 +47,7 @@ In this doc, you'll find how to implemenat this plugin in an Ionic App.
     _For e.g.: -_
     _(Staging Environment)_
     ```
-    <plugin name="cordova-plugin-paytm" spec="0.0.4">
+    <plugin name="cordova-plugin-paytm" spec="0.0.10">
         <variable name="MERCHANT_ID" value="ABC12345" />
         <variable name="INDUSTRY_TYPE_ID" value="Retail" />
         <variable name="WEBSITE" value="APPSTAGING" />
