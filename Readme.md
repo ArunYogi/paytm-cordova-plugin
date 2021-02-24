@@ -1,3 +1,5 @@
+# This is no longer supported, please consider using [cordova-paytm-allinonesdk](https://github.com/paytm/paytm-allinonesdk-ionic-cordova.git) instead.
+
 Installation
 ============
 
